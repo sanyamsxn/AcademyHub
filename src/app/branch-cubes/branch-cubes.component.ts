@@ -1,6 +1,7 @@
 // branch-cubes.component.ts
 import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-branch-cubes',
@@ -74,20 +75,21 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
     
     // Camera setup
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.z = 12;
-    this.camera.position.y = 2;
+    this.camera.position.z = 14;
+    this.camera.position.y = 5;
     
     // Renderer setup
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer.setClearColor(0x000000, 0);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor(0x121212, 1);
+    // this.renderer.setClearColor(0x121212, 1);
     this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
     
     // Add click event listener
     this.renderer.domElement.addEventListener('click', this.onClick.bind(this));
     
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
     this.scene.add(ambientLight);
     
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -119,30 +121,30 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
     
     // Create background gradient
     const gradient = context!.createLinearGradient(0, 0, 0, 512);
-    gradient.addColorStop(0, hexColor);
-    gradient.addColorStop(1, this.shadeColor(hexColor, -30)); // darker shade
+    gradient.addColorStop(0, 'rgb(12, 11, 33)'); // Whitesmoke
+    gradient.addColorStop(1, this.shadeColor('#000000',-30)); // darker shade
     
     context!.fillStyle = gradient;
     context!.fillRect(0, 0, 512, 512);
     
     // Add text shadow for better readability
-    context!.shadowColor = 'rgba(0, 0, 0, 0.7)';
+    context!.shadowColor = 'rgba(0, 0, 0, 0.97)';
     context!.shadowBlur = 15;
     context!.shadowOffsetX = 4;
     context!.shadowOffsetY = 4;
     
     // Main text - large and bold
-    context!.font = 'bold 100px Arial, Helvetica, sans-serif';
+    context!.font = 'bold 110px Arial, Helvetica, sans-serif';
     context!.textAlign = 'center';
     context!.textBaseline = 'middle';
     
     // Text outline for better visibility
-    context!.strokeStyle = '#000000';
+    context!.strokeStyle = '#ffffff';
     context!.lineWidth = 6;
     context!.strokeText(text, 256, 256);
     
     // Fill text
-    context!.fillStyle = '#FFFFFF';
+    context!.fillStyle = 'rgb(255, 255, 255)';
     context!.fillText(text, 256, 256);
     
     // Create texture
@@ -151,7 +153,8 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
     
     return texture;
   }
-  
+  // Add this method to your BranchCubesComponent
+
   // Helper function to darken color
   private shadeColor(color: string, percent: number): string {
     let R = parseInt(color.substring(1, 3), 16);
@@ -171,22 +174,21 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
   
   private createBoxWithText(text: string, position: THREE.Vector3, index: number): THREE.Mesh {
     // Create cubic geometry (equal dimensions)
-    const size = 2.2; // Larger cube size
+    const size = 2.5; // Larger cube size
     const geometry = new THREE.BoxGeometry(size, size, size);
     
     // Create textures for each face
     const frontTexture = this.createTextTexture(text, index);
-    const materialColor = this.materialColors[index % this.materialColors.length];
-    const material = new THREE.MeshStandardMaterial({ color: materialColor });
+    const uniformMaterial = new THREE.MeshStandardMaterial({ map: frontTexture });
     
     // Create materials array with text on front face
     const boxMaterials = [
-      material.clone(), // right
-      material.clone(), // left
-      material.clone(), // top
-      material.clone(), // bottom
-      new THREE.MeshStandardMaterial({ map: frontTexture }), // front
-      material.clone()  // back
+      uniformMaterial, // right
+    uniformMaterial, // left
+    uniformMaterial, // top
+    uniformMaterial, // bottom
+    uniformMaterial, // front
+    uniformMaterial 
     ];
     
     // Create mesh
@@ -212,7 +214,7 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
       bounceFactor: 0.6,
       bounceHeight: 0,
       originalY: 0,
-      bounceTime: 0,
+      bounceTime: 2,
       textFace: 4 // The index of the face with text (front face)
     };
     
@@ -222,28 +224,27 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
     return box;
   }
   
-  // Initialize boxes with different positions
   public initializeBoxes(): void {
+    
     // Clear any existing boxes
     for (let i = this.boxes.length - 1; i >= 0; i--) {
       this.scene.remove(this.boxes[i]);
     }
     this.boxes.length = 0;
-    
-    const radius = 8; // Radius of the circle
-    const angleStep = (2 * Math.PI) / this.branches.length;
-    
+  
+    const distance = 3.4; // Distance between each box along the x-axis
+    const startX = -((this.branches.length - 1) * distance) / 2; // Center the boxes
+  
     this.branches.forEach((branch, index) => {
-      // Calculate position in a circle pattern
-      const angle = angleStep * index;
-      const x = Math.cos(angle) * radius * 0.8;
-      const z = Math.sin(angle) * radius;
-      const y = 10 + Math.random() * 3; // Start higher
-      
+      // Calculate position in a straight line pattern along the x-axis
+      const x = startX + index * distance;
+      const y = 10 + Math.random() * 3; // Random height offset
+      const z = 0; // Keep all boxes at the same depth (z-axis)
+  
+      // Create the box with the text at the calculated position
       this.createBoxWithText(branch, new THREE.Vector3(x, y, z), index);
     });
   }
-  
   // Handle window resize
   private onWindowResize(): void {
     this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -256,87 +257,63 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
     for (let i = 0; i < this.boxes.length; i++) {
       const box = this.boxes[i];
       const userData = (box as any).userData;
-      
+  
       if (userData.isSettled) {
-        // Apply continuous small bounce animation for settled boxes
+        // Small idle bounce effect
         userData.bounceTime += 0.03;
         const bounceOffset = Math.sin(userData.bounceTime) * 0.05;
         box.position.y = userData.originalY + bounceOffset;
-        
-        // Keep the text face oriented toward the camera
-        const vectorToCamera = new THREE.Vector3();
-        vectorToCamera.subVectors(this.camera.position, box.position).normalize();
-        
-        const angleToCamera = Math.atan2(
-          vectorToCamera.x,
-          vectorToCamera.z
-        );
-        
-        box.rotation.y = angleToCamera;
-        
-        // Add slight wobble for visual interest
+  
+        // Add slight wobble for visual interest (no camera-facing rotation)
         box.rotation.x = Math.sin(userData.bounceTime * 0.7) * 0.02;
         box.rotation.z = Math.sin(userData.bounceTime * 0.5) * 0.02;
+  
         continue;
       }
-      
-      // Update position based on velocity
+  
+      // Apply motion
       box.position.x += userData.velocity.x;
       box.position.y += userData.velocity.y;
       box.position.z += userData.velocity.z;
-      
-      // Apply gravity
-      userData.velocity.y -= 0.008; // Increased gravity
-      
-      // Apply rotation
+  
+      // Gravity
+      userData.velocity.y -= 0.008;
+  
+      // Rotation
       box.rotation.x += userData.rotationSpeed.x;
       box.rotation.y += userData.rotationSpeed.y;
       box.rotation.z += userData.rotationSpeed.z;
-      
-      // Check for ground collision
+  
+      // Collision with ground
       const boxHeight = (box.geometry as THREE.BoxGeometry).parameters.height;
-      if (box.position.y < this.groundY + (boxHeight/2) && userData.velocity.y < 0) {
-        userData.bounceCount++;
+      if (box.position.y < this.groundY + (boxHeight / 2) && userData.velocity.y < 0) {
         
+        if (userData.bounceCount === 0) {
+          userData.originalY = this.groundY + (boxHeight / 2);
+        }
+        userData.bounceCount++;
+
         if (userData.bounceCount >= userData.maxBounces) {
-          // Box has reached max bounces, settle it
+          // Settle the box
           userData.isSettled = true;
-          
-          // Set final position slightly above ground
-          box.position.y = this.groundY + (boxHeight/2);
-          userData.originalY = this.groundY + (boxHeight/2);
-          
-          // Reset rotation to make text face camera
-          box.rotation.set(0, 0, 0);
-          
-          // Calculate angle to face camera (only on y axis)
-          const vectorToCamera = new THREE.Vector3();
-          vectorToCamera.subVectors(this.camera.position, box.position).normalize();
-          
-          const angleToCamera = Math.atan2(
-            vectorToCamera.x,
-            vectorToCamera.z
+          box.position.y = userData.originalY; 
+          box.rotation.set(
+            box.rotation.x * 0.2,
+            box.rotation.y * 0.2,
+            box.rotation.z * 0.2
           );
-          
-          box.rotation.y = angleToCamera;
-          
-          // Initialize bounce animation
-          userData.bounceTime = Math.random() * Math.PI; // Random start phase
+  
+          userData.bounceTime = Math.random() * Math.PI;
         } else {
-          // Box is still bouncing
-          
-          // Apply bounce physics - more energetic initial bounces
+          // Bouncing
           const bounceFactor = userData.bounceFactor * (1 - userData.bounceCount * 0.15);
           userData.velocity.y = -userData.velocity.y * bounceFactor;
-          
-          // Add some horizontal movement variation on each bounce
+  
+          box.position.y = this.groundY + (boxHeight / 2);
+  
           userData.velocity.x = userData.velocity.x * 0.8 + (Math.random() - 0.5) * 0.03;
           userData.velocity.z = userData.velocity.z * 0.8 + (Math.random() - 0.5) * 0.03;
-          
-          // Make sure it doesn't go through the ground
-          box.position.y = this.groundY + (boxHeight/2);
-          
-          // Add rotation on bounce for visual interest
+  
           if (userData.bounceCount < userData.maxBounces - 1) {
             userData.rotationSpeed = {
               x: (Math.random() - 0.5) * 0.02 * (1 - userData.bounceCount * 0.3),
@@ -344,7 +321,6 @@ export class BranchCubesComponent implements AfterViewInit, OnDestroy {
               z: (Math.random() - 0.5) * 0.02 * (1 - userData.bounceCount * 0.3)
             };
           } else {
-            // Last bounce - prepare to settle by reducing rotation
             userData.rotationSpeed = {
               x: userData.rotationSpeed.x * 0.3,
               y: userData.rotationSpeed.y * 0.3,

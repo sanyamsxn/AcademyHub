@@ -1,31 +1,47 @@
-import { Component } from '@angular/core';
-import { HeaderComponent } from "../header/header.component";
-import {AuthService} from "./auth.service"
+import { Component, DestroyRef, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+interface User{
+  name:String;
+  email : String;
+}
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [HeaderComponent, FormsModule],
+  imports: [ FormsModule, RouterModule],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })
 export class SignUpComponent {
-  user = {
-    name: '',
-    email: '',
-    password: '',
-    confirmP : ''
-  };
+  success: boolean = false;
+  error : boolean = false;
 
-
-  // constructor(private authService: AuthService) {}
+  private router = inject(Router);
+  private httpClient = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
 
   onSubmit(formI : NgForm) {
-    console.log(formI.form.value.name);
-    console.log(formI.form.value.email);
-    console.log(formI.form.value.password);
-    console.log(formI.form.value.confirmP);
+    const formData = formI.value;
+    if(formData.valid){
+      const subscription = this.httpClient.post('api', formData)
+        .subscribe({
+          next:(res)=>{
+            this.success = true;
+            formI.reset();
+            setTimeout(() => {
+              this.router.navigate(['/signin']);
+            }, 1500);
+          },
+          error:(err)=>{
+            this.error = true;
+            formI.reset();
+          }
+        })
+    }
     
   }
 }
