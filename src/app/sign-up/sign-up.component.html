@@ -1,0 +1,60 @@
+<app-header/>
+
+<div class="auth-container">
+    <div class="auth-card">
+      <h2>Create Account</h2>
+      <form  class="auth-form" #form="ngForm" (ngSubmit) = "onSubmit(form)">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            ngModel
+            name="name"  
+            required
+            placeholder="Enter your full name"
+          >
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            ngModel
+            name="email" 
+            required
+            placeholder="Enter your email"
+          >
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password"  
+            name="password"
+            ngModel
+            required
+            placeholder="Create a password"
+          >
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            name="confirmP" 
+            ngModel
+            required
+            placeholder="Confirm your password"
+          >
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="auth-button">Sign Up</button>
+          <p class="auth-link">
+            Already have an account? 
+            <a routerLink="/signin">Sign In</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>

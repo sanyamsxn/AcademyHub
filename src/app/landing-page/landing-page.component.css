@@ -1,0 +1,74 @@
+#main-content{
+    width: 60%;
+    text-align: center;
+    margin-top: 8rem;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 50vh;
+    justify-content:space-around;
+}
+
+p:nth-child(1){
+    color: whitesmoke;
+    font-size: 4.5rem;
+    letter-spacing: 0.1rem;
+    letter-spacing: 0.5rem;
+}
+p:nth-child(2){
+    color: whitesmoke;
+    font-size: 4.3rem;
+    font-family: "Inknut Antiqua", serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: -60px;
+}
+p:nth-child(3){
+    color: #FFBF00;
+    font-size: 1rem;
+    text-align: center;
+    margin-left: 90px;
+    margin-right: 90px;
+    font-weight: bold;
+    margin-top: -30px;
+    font-family: "Cormorant", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+button{
+    border-radius: 40px;
+    height: 60px;
+    width: 190px;
+    font-size: 1.3rem;
+    background-color: #262f40;
+    color:#FFBF00 ;
+    cursor: pointer;
+    border: 2px solid whitesmoke;
+}
+
+button:hover{
+    background: #242a35 ;
+    border: 2px solid #FFBF00 ;
+}
+svg{
+    height: 27px;
+    transition: transform 0.3s ease;
+    margin-top: 10px;
+}   
+
+button:hover +svg{
+    transform: translateY(6px);
+}
+
+
+#lower-content{
+    margin-top: 50px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}

@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { LandingPageComponent } from "./landing-page/landing-page.component";
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { HeaderComponent } from "./header/header.component";
+// import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [LandingPageComponent, HeaderComponent, SignInComponent,SignUpComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
