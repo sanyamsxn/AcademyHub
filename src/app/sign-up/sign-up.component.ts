@@ -42,6 +42,9 @@ export class SignUpComponent {
           }
         })
     }
+    else{
+      window.alert("Invalid form");
+    }
     
   }
 }

@@ -1,0 +1,53 @@
+<html>
+    <head> 
+        <link href="./testing.css" rel="stylesheet">
+        <body>
+            <div class="dashboard-container">
+                <!-- Sidebar Filters -->
+                <aside class="sidebar">
+                  <h3>Filters</h3>
+                  <div class="filter-group">
+                    <label>
+                      <input type="checkbox" name="stream" value="MCA" />
+                      MCA
+                    </label>
+                    <label>
+                      <input type="checkbox" name="stream" value="BTech[CS]" />
+                      BTech[CS]
+                    </label>
+                    <label>
+                      <input type="checkbox" name="stream" value="BTech[EEE]" />
+                      BTech[EEE]
+                    </label>
+                    <label>
+                      <input type="checkbox" name="stream" value="BBA" />
+                      BBA
+                    </label>
+                    <label>
+                      <input type="checkbox" name="stream" value="MCom" />
+                      MCom
+                    </label>
+                    <label>
+                      <input type="checkbox" name="stream" value="BCA" />
+                      BCA
+                    </label>
+                  </div>
+                </aside>
+              
+                <!-- Main Content -->
+                <main class="content">
+                  <h2>Most Downloaded Files</h2>
+                  <div class="file-list">
+                    <div class="file-card" *ngFor="let file of mostDownloadedFiles">
+                      <h4>{{ file.title }}</h4>
+                      <p>{{ file.description }}</p>
+                      <p><strong>Downloads:</strong> {{ file.downloads }}</p>
+                      <button (click)="downloadFile(file)">Download</button>
+                    </div>
+                  </div>
+                </main>
+              </div>
+              
+        </body>
+    </head>
+</html>
