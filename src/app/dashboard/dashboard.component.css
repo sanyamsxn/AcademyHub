@@ -1,0 +1,20 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+#outerMain{
+    margin-top: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#filters{
+    width: 30%;
+
+}
+#files{
+    width: 70%;
+}

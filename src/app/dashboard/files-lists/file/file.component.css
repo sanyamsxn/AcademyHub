@@ -1,6 +1,4 @@
 #box{
-    margin-left:100px ;
-    margin-top: 20px;
     height: 120px;
     width: 100px;
     position: relative;
@@ -26,12 +24,16 @@ background: linear-gradient(to right, #152331, #171b1d);
     z-index: -1;
     border-radius: inherit;
 }
+img{
+    height:50px;
+    width: 50px;
+}
 
 h6{
     color: rgb(248, 210, 59);
 }
 button{
-    margin-top:6px;
+    margin-top:9px;
     height: 25px;
     width: 80px;
     border: 1px solid rgb(176, 176, 176);
