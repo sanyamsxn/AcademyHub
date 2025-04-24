@@ -3,11 +3,10 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
-interface User{
-  name:String;
-  email : String;
-}
+
 
 @Component({
   selector: 'app-sign-up',
@@ -20,30 +19,43 @@ export class SignUpComponent {
   success: boolean = false;
   error : boolean = false;
 
+  private toastr = inject(ToastrService);
+  private auth = inject(AuthService);
   private router = inject(Router);
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
   onSubmit(formI : NgForm) {
     const formData = formI.value;
-    if(formData.valid){
-      const subscription = this.httpClient.post('api', formData)
+    if(formI.valid){
+      this.auth.showLoader();
+      const subscription = this.httpClient.post('http://localhost:5000/auth/signup', formData)
         .subscribe({
-          next:(res)=>{
-            this.success = true;
-            formI.reset();
-            setTimeout(() => {
-              this.router.navigate(['/signin']);
-            }, 1500);
+          next:(res:any)=>{
+            console.log(res);
+            if(res.success){
+              this.success = true;
+              setTimeout(() => {
+                this.auth.hideLoader();
+                this.router.navigate(['/signin']);
+              }, 2000);
+            }
+            else{
+              this.auth.hideLoader();
+              this.toastr.error(res.message);
+              formI.reset();
+            }
           },
           error:(err)=>{
+            this.auth.hideLoader();
             this.error = true;
+            this.toastr.error(err.error.message);
             formI.reset();
           }
         })
     }
     else{
-      window.alert("Invalid form");
+      this.toastr.error("Invalid form");
     }
     
   }

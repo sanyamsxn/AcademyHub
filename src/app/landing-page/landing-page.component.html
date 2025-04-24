@@ -1,7 +1,11 @@
 <app-branch-cubes/>
 
 <div id="container">
-    <div id="main-content">   
+    @if(loggedIn){
+        <button (click)="onClick()">DASHBOARD 🗂️</button>
+    }
+    <div id="main-content"> 
+          
         <p>WHERE KNOWLEDGE</p>
         <p>knows no boundaries</p>
         <p>AcademiHub connects students across disciplines to share and discover valuable academic resources.

@@ -4,8 +4,8 @@
   align-items: center;
   min-height: 80vh;
   background: #232526;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #394d61, #232526);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #152331, #171b1d);
+background: -webkit-linear-gradient(to right, #1b2a39, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #0a151f, #171b1d);
   padding: 20px;
 }
 
@@ -19,10 +19,18 @@ background: linear-gradient(to right, #152331, #171b1d);
 }
 
 .auth-card h2 {
-  margin: 0 0 1.5rem;
-  color: #ffffff;
+  margin: 0 0 3rem;
   text-align: center;
   font-size: 3.5rem;
+  color:#FFBF00 ;
+	font-family: 'Niconne', cursive;
+	    font-weight: 700;
+      text-shadow: 5px 5px 0px #000000, 
+                  10px 10px 0px #0a0347, 
+                  15px 15px 0px #46b59b, 
+                  20px 20px 0px #017e7f, 
+                  25px 25px 0px #052939, 
+                  30px 30px 0px #f6edee
 }
 
 .auth-form {

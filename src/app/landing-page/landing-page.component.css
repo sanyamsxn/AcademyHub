@@ -1,10 +1,13 @@
 #main-content{
-    width: 60%;
-    text-align: center;
-    margin-top: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 3.5rem;
 }
 
 #container{
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,45 +33,30 @@ p:nth-child(3){
     color: #FFBF00;
     font-size: 1rem;
     text-align: center;
-    margin-left: 90px;
-    margin-right: 90px;
     font-weight: bold;
     margin-top: -30px;
     font-family: "Cormorant", serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    width: 50%;
 }
 
 button{
-    border-radius: 40px;
-    height: 60px;
-    width: 190px;
-    font-size: 1.3rem;
-    background-color: #262f40;
-    color:#FFBF00 ;
     cursor: pointer;
-    border: 2px solid whitesmoke;
+    height: 60px;
+    width: 220px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    background: #232526;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #394d61, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #152331, #171b1d);;
+    color: #ffffff;
+    margin-top: 50px;
 }
 
 button:hover{
-    background: #242a35 ;
-    border: 2px solid #FFBF00 ;
-}
-svg{
-    height: 27px;
-    transition: transform 0.3s ease;
-    margin-top: 10px;
-}   
-
-button:hover +svg{
-    transform: translateY(6px);
-}
-
-
-#lower-content{
-    margin-top: 50px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+    border: 1px solid whitesmoke;
 }

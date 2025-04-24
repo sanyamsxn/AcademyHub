@@ -10,29 +10,20 @@ import { CommonModule } from '@angular/common';
 export class FiltersComponent {
   courseList = [
     'MCA',
-    'BTech-CS',
+    'BTech[CS]',
     'BCA',
     'BBA',
-    'MTech',
-    'BTech-EEE',
-    'BTech-IT'
+    'BTech[EEE]',
+    'MCom'
   ];
 
-  selectedCourses: string[] = [];
+  selectedCourse: String ='';
 
-  @Output() filtersChanged = new EventEmitter<string[]>();
+  @Output() selectedFilter = new EventEmitter<any>();
 
   onCheckboxChangeEvent(event: Event, course: string) {
-    const input = event.target as HTMLInputElement;
-    const checked = input.checked;
-  
-    if (checked && !this.selectedCourses.includes(course)) {
-      this.selectedCourses.push(course);
-    } else if (!checked) {
-      this.selectedCourses = this.selectedCourses.filter(c => c !== course);
-    }
-  
-    this.filtersChanged.emit(this.selectedCourses);
+    this.selectedCourse = course;
+    this.selectedFilter.emit(course);
   }
   
 }

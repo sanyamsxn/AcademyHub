@@ -1,10 +1,15 @@
-<app-header/>
 
-<div id="outerMain">
-    <div id="filters">
-        <app-filters/>
-    </div>
-    <div id="files">
-        <app-files-lists/>
-    </div>
+<div id="mainD">
+    <button class="icon-button" (click)="openUploadDialog()">
+        <span class="btn-text">UPLOAD FILE</span>
+        <span class="btn-icon">➔</span>
+      </button>
+        <div id="outerMain">
+            <div id="filters">
+                <app-filters (selectedFilter)="onSelectFilter($event)"/>
+            </div>
+            <div id="files">
+                <app-files-lists [files]="files"/>
+            </div>
+        </div>
 </div>

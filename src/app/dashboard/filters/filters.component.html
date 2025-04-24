@@ -3,7 +3,8 @@
     <div class="checkbox-list">
       <label class="checkbox-item" *ngFor="let course of courseList">
         <input
-          type="checkbox"
+          type="radio"
+          name="course"
           (change)="onCheckboxChangeEvent($event, course)"
         />
         <span class="label-text">{{ course }}</span>
